@@ -40,7 +40,7 @@ jobs:
     - name: Upload app binaries to releaseHub
       uses: ShaunLWM/action-release-debugapk@master
       env:
-       GITHUB_TOKEN: ${{ secrets.github_token }}
-       APP_FOLDER: ./
+       GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN  }}
+       APP_FOLDER: .
        RELEASE_TITLE: New Build
 
