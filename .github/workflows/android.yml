@@ -1,0 +1,48 @@
+name: Github Actions
+
+# on: [push, pull_request]
+on:
+  push:
+    branches: [  master  ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [  master  ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "#️⃣ Generate Build Number"
+      id: buildnumber
+      uses: einaregilsson/build-number@v2
+      with:
+        token: ${{ secrets.ACTION_TEST }}
+    - name: Print new build number
+      run: |
+        echo "Build number is $BUILD_NUMBER"
+        echo "Build number is $buildnumber" ${{ steps.buildnumber.outputs.build_number }}
+        echo  $BUILD_NUMBER
+    - uses: actions/checkout@v2
+    - name: Create GitHub release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTION_TEST }}
+      with:
+        tag_name: V-${{ steps.buildnumber.outputs.build_number }}
+        release_name: V-${{ steps.buildnumber.outputs.build_number }}
+        body: |
+          ![release!](https://i.giphy.com/media/lPulaaB9lDMnGZiivs/source.gif)
+          # Changelog
+          Release type: ${{ steps.buildnumber.outputs.build_number }}
+        prerelease: true
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.ACTION_TEST }}
+        file: .output.json
+        asset_name: output.json
+        tag: V-${{ steps.buildnumber.outputs.build_number }}
+
+
+        
