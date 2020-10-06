@@ -27,7 +27,7 @@ jobs:
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.github_token }}
       with:
         tag_name: V-${{ steps.buildnumber.outputs.build_number }}
         release_name: V-${{ steps.buildnumber.outputs.build_number }}
@@ -39,7 +39,7 @@ jobs:
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
-        repo_token: ${{ secrets.ACTION_TOKEN }}
+        repo_token: ${{ secrets.github_token }}
         file: .output.json
         asset_name: output.json
         tag: V-${{ steps.buildnumber.outputs.build_number }}
