@@ -36,11 +36,15 @@ jobs:
           # Changelog
           Release type: ${{ steps.buildnumber.outputs.build_number }}
         prerelease: true
-        
-    - name: Upload app binaries to releaseHub
-      uses: ShaunLWM/action-release-debugapk@master
-      env:
-       GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN  }}
-       APP_FOLDER: .
-       RELEASE_TITLE: New Build
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: output.json
+        path: .
+#     - name: Upload app binaries to releaseHub
+#       uses: ShaunLWM/action-release-debugapk@master
+#       env:
+#        GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN  }}
+#        APP_FOLDER: .
+#        RELEASE_TITLE: New Build
 
